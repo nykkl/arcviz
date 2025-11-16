@@ -3,6 +3,8 @@ use std::{cell::RefCell, rc::Rc};
 use anyhow::anyhow;
 use ncollide2d::na::{convert, Affine2, Scale2, Translation2};
 use result_or_err::ResultOrErr;
+use wasm_bindgen::JsValue;
+use web_sys::{console, HtmlDivElement, PointerEvent, WheelEvent};
 use webbit::{
 	components::ResizeCanvas,
 	elements::{div, styled},
@@ -11,8 +13,6 @@ use webbit::{
 	io::FileIOHandler,
 	Component, ComponentContent, Context,
 };
-use wasm_bindgen::JsValue;
-use web_sys::{console, HtmlDivElement, PointerEvent, WheelEvent};
 
 use crate::{
 	common::{Number, Vector},
@@ -28,10 +28,10 @@ pub type AppContext = Context<WorkspaceContext<CanvasStage>, IgnoreErr>;
 pub struct Workspace {
 	element: HtmlDivElement,
 	pub context: AppContext,
-	canvas1: Rc<ResizeCanvas>, // TODO: make this Component instead of Rc, right?
-	canvas2: Rc<ResizeCanvas>,
-	canvas3: Rc<ResizeCanvas>,
-	canvas4: Rc<ResizeCanvas>,
+	canvas1: Component<ResizeCanvas>, // TODO: make this Component instead of Rc, right?
+	canvas2: Component<ResizeCanvas>,
+	canvas3: Component<ResizeCanvas>,
+	canvas4: Component<ResizeCanvas>,
 	hand_dispatcher: RefCell<HandDispatcher>,
 	pub tool_dispatcher: RefCell<ToolDispatcher>,
 	down_listener: SharedEventListener<PointerEvent>,
@@ -47,10 +47,10 @@ impl Workspace {
 		let element = styled(div(), "workspace");
 		BubbleStopper::configure(element.clone().into(), "contextmenu", |b| b.prevent_default());
 
-		let canvas1 = ResizeCanvas::new("canvas1");
-		let canvas2 = ResizeCanvas::new("canvas2");
-		let canvas3 = ResizeCanvas::new("canvas3");
-		let canvas4 = ResizeCanvas::new("canvas4");
+		let canvas1 = Component::make_sharable(ResizeCanvas::new("canvas1"));
+		let canvas2 = Component::make_sharable(ResizeCanvas::new("canvas2"));
+		let canvas3 = Component::make_sharable(ResizeCanvas::new("canvas3"));
+		let canvas4 = Component::make_sharable(ResizeCanvas::new("canvas4"));
 		canvas1.mount_in(&element);
 		canvas2.mount_in(&element);
 		canvas3.mount_in(&element);
