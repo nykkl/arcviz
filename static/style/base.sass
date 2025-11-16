@@ -1,0 +1,82 @@
+// -------------------------------------------------
+// -------------------------------------------------
+// provides useful base styles and sensible defaults
+// -------------------------------------------------
+// -------------------------------------------------
+
+// these elements should fill their parent by default
+html, body, div, canvas
+	width: 100%
+	height: 100%
+	overflow: hidden
+// these are horrible defaults => replacing them for common elements (most importantly div!)
+html, body, div, canvas
+	touch-action: none
+	box-sizing: border-box
+
+
+// some generally useful stuff:
+@mixin fill
+	width: 100%
+	height: 100%
+@mixin container
+	overflow: hidden
+// we usually want to be able to move canvases around => absolute positioning relative to a positioned ancestor
+// also we want to do stuff like zoom and pan ourselves => absolutely no touch actions
+@mixin canvasContainer
+	@include container
+	position: relative
+@mixin canvas
+	position: absolute
+	@include fill
+	touch-action: none
+
+
+// ----
+// FLEX
+// ----
+
+// default flex-container behavior
+@mixin flexContainer
+	@include container
+
+	display: flex
+
+	width: fit-content
+	height: fit-content
+
+	flex-direction: column
+	justify-content: flex-start
+	align-items: center
+
+	flex-wrap: nowrap
+	align-content: center
+
+	row-gap: 0
+	column-gap: 0
+
+// supplemental flex-container behaviors
+@mixin flexCenterContent
+	justify-content: center
+	align-items: center
+@mixin flexWrap
+	flex-wrap: wrap
+
+// default flex-item behavior
+@mixin flexItem
+	flex: 0 0 auto
+	align-self: auto
+
+// supplemental flex-item behaviors
+@mixin flexFill
+	@include fill
+	flex: 1 1 100%
+@mixin flexSized
+	flex-basis: auto
+@mixin flexFitContent
+	flex-basis: content
+
+// often we want a flex container that is also a flex item in the parent container
+@mixin flexElement
+	@include flexContainer
+	@include flexItem

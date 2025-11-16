@@ -1,0 +1,69 @@
+[package]
+name = "arcviz"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+
+[profile.final]
+inherits = "release"
+lto = true
+codegen-units = 1
+
+[profile.tiny]
+inherits = "final"
+opt-level = "s"
+
+
+[dependencies]
+webbit = { git = "https://github.com/nykkl/webbit.git", branch = "dev" } # TODO: stabilize this by removing branch spec
+# code quality
+result_or_err = { git = "https://github.com/nykkl/result_or_err.git", tag = "0.1.0" }
+enum_dispatch = "0.3.11"
+anyhow = "1.0"
+# collision detection
+ncollide2d = "0.33"
+# serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_state = { version = "0.4.8", features = ["derive"] }
+serde_derive_state = "0.4.10"
+serde_json = "1.0"
+# web
+wasm-bindgen = "0.2.45"
+js-sys = "0.3.22"
+
+[dependencies.web-sys]
+version = "0.3.69"
+features = [
+	'Window',
+	'Document',
+	'DocumentFragment',
+	'console',
+
+	'ResizeObserver',
+
+	'Node',
+	'Element',
+	'HtmlElement',
+	'HtmlTemplateElement',
+	'HtmlDivElement',
+	'HtmlHrElement',
+	'HtmlCanvasElement',
+	'CanvasRenderingContext2d',
+	'OffscreenCanvasRenderingContext2d',
+	'HtmlButtonElement',
+	'HtmlInputElement',
+	'HtmlLabelElement',
+
+	'PointerEvent',
+	'WheelEvent',
+	'InputEvent',
+
+	'CssStyleDeclaration',
+	'DomRect',
+
+	'ImageData',
+	'OffscreenCanvas',
+]

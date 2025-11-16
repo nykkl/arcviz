@@ -1,0 +1,16 @@
+hard_tabs = true
+tab_spaces = 1
+newline_style = "Unix"
+
+max_width = 110
+use_small_heuristics = "Max"
+
+group_imports = "StdExternalCrate"
+imports_granularity = "Crate"
+struct_lit_single_line = false
+fn_single_line = true
+reorder_impl_items = true
+overflow_delimited_expr = true
+match_block_trailing_comma = true
+normalize_comments = true
+normalize_doc_attributes = true

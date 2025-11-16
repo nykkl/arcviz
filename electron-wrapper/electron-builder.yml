@@ -1,0 +1,19 @@
+electronVersion: 31.3.1
+linux:
+  target:
+    - target: appimage
+      arch:
+        - x64
+        - arm64
+    - target: snap
+    - target: tar.gz
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+        - arm64
+    - target: portable
+      arch:
+        - x64
+        - arm64

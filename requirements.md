@@ -1,0 +1,55 @@
+## General
+- Goal is to investigate which graphs can be drawn with circular arcs
+- should be generally flexible
+- only needs to support a small number of points
+- edges need not be directional
+- no autosave!
+- same `drawing` <=> same `graph` && same intersections (edge1 edge1 number)
+
+## Todo
+- [x] vertices: add, move, remove
+- [x] lines: add, move, remove
+- [x] toggleable labels for vertices
+- [x] visualize intersections (not resolving) (toggleable)
+- [x] offer different (predefined) radii (with color to visualize class) (save in same file)
+- [x] save & load
+	- format: number of points, point per line, curve per line, lines not identified by sorting but by reference to points, 1-based-indexing
+	- invalid data doesn't need to be retained on load (can just be ignored)
+- [x] .json export
+- [x] sidebar for errors, etc.
+- [x] remove vertex and edge mode buttons (redundant with edit)
+- [ ] move tag in context menu
+- [ ] option for showing vertex index on vertices without labels
+- [ ] allow changing rendered sizes of vertex, thickness of edge, etc
+- [ ] allow changing arc orientation by pulling on edge
+- [ ] export to 'ipe editor' format (if feasible)
+- [ ] on save normalize connecion notation
+	- always put vertex with lowest index first
+	- adjust orientation accordingly
+	- different ordering should still be allowed for load
+- [ ] host web version on server (github.io?)
+- [ ] highlight vertices and edges when selected / pulling from
+- [ ] snap to grid for multiselect:
+	- toggleable
+	- 3 szenarios:
+		- all vertices are grid aligned: snap
+		- no vertices are grid aligned: dont snap
+		- some vertices are grid aligned: pick an aligned one and snap all acordingly
+- [ ] intersection constraint extension:
+	- [ ] differentiate 3 types of intersection constraint:
+		- necessary: needs to intersect in exactly 1 place
+		- forbidden: may not intersect in any place
+		- irrelevant: may or may not intersect in one place
+	- [ ] base constraints that can not be overridden by the user:
+		- no edge may have 2 intersections ever
+		- edges that share a vertex must have 0 intersections
+		- if the user tries to specify otherwise: ignore; do not save
+	- [ ] allow user to specify intersection constraints on edge pairs
+		- [ ] by selecting an existing intersection
+		- [ ] by pulling an edge to another
+	- [ ] store these constrains as an array (like the edges, i.e. with one space per edge pair whether occupied or not)
+	- [ ] color detected intersections accordingly (toggleable)
+		- [ ] green: necessary
+		- [ ] blue: ok
+		- [ ] red: forbidden => error
+	- [ ] color edges that should have intersections but dont (toggleable)

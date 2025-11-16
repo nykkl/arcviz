@@ -1,0 +1,21 @@
+{
+	"name": "arcviz-electron",
+	"version": "0.1.0",
+	"description": "An application for editing graphs with circular arcs for edges.",
+
+	"author": {
+		"name": "nykkl",
+		"email": "nykkl.gmx.net"
+	},
+
+	"main": "main.mjs",
+
+	"scripts": {
+		"start": "electron .",
+		"build": "electron-builder -lw"
+	},
+	"devDependencies": {
+		"electron": "^31.3.1",
+		"electron-builder": "^24.13.3"
+	}
+}

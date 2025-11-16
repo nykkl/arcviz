@@ -1,0 +1,274 @@
+@use 'sass:math'
+
+@use 'reset'
+@use 'base'
+
+body
+	font: 26px Arial, sans-serif
+
+.app
+	@include base.flexContainer
+	flex-direction: row
+	@include base.fill
+
+.main
+	@include base.flexElement
+	flex-direction: column
+	@include base.flexFill
+
+.sidebar
+	@include base.flexElement
+	flex-direction: row
+	align-items: flex-start
+	@include base.flexSized
+	width: 25%
+	min-width: 80px
+	max-width: 100%
+	height: 100%
+	background-color: #111111
+.sidebar-resize-handle
+	@include base.flexItem
+	@include base.flexSized
+	touch-action: none
+	width: 8px
+	height: 10%
+	border-radius: 3px
+	align-self: center
+	background-color: white
+	cursor: col-resize
+	&:hover
+		filter: brightness(1.5)
+.sidebar-internal
+	@include base.flexElement
+	@include base.flexFill
+	flex-grow: 1
+.sidebar-controls
+	@include base.flexElement
+	flex-direction: row
+	@include base.fill
+	@include base.flexFitContent
+	align-items: start
+	gap: 5px
+.sidebar-control-button
+	@include base.flexItem
+	@include base.flexSized
+	width: 35px
+	height: 35px
+	border-radius: 15%
+	margin: 10px
+	background-color: red
+.sidebar-control-title
+	font-size: 45px
+	padding: 28px 40px
+	color: grey
+.sidebar-content
+	@include base.flexElement
+	@include base.flexFill
+	flex-grow: 1
+
+$bar-gaps: 7px
+.bar
+	@include base.flexElement
+	flex-direction: row
+	@include base.flexWrap
+	width: 100%
+	padding: $bar-gaps
+	gap: 10px 25px
+	background: #111111
+.bar-group
+	@include base.flexElement
+	flex-direction: row
+	@include base.flexWrap
+	gap: $bar-gaps
+.bar-button
+	@include base.flexElement
+	// display: inline-flex
+	@include base.flexCenterContent
+	padding: 6px 15px
+	border-radius: 10px
+	border: solid #444444 4px
+	user-select: none
+	&:hover
+		filter: brightness(1.25)
+	&:active
+		filter: brightness(1.5)
+	background: #444444
+	color: #e1e1d9
+.bar-accent-button
+	@extend .bar-button
+	background: #222222
+	border-color: #222222
+.bar-text
+	@include base.flexElement
+	font: 26px Arial, sans-serif
+	padding: 6px 12px
+	width: 270px
+	border-radius: 6px
+
+.workspace
+	@include base.canvasContainer
+	@include base.flexItem
+	@include base.flexFill
+	background: #333333
+
+.canvas1
+	@include base.canvas
+	z-index: 1
+	background: #333333
+.canvas2
+	@include base.canvas
+	z-index: 2
+	background: transparent
+.canvas3
+	@include base.canvas
+	z-index: 3
+	background: transparent
+.canvas4
+	@include base.canvas
+	z-index: 4
+	background: transparent
+
+
+.icon
+	width: 28px
+	height: 28px
+
+.choice-active
+	border-color: blue
+
+// TODO: revisit z-indices
+
+$selection-padding: 50px
+$selection-border-thickness: 2px
+$selection-color: gray
+$selection-opacity: 50%
+$selection-z-index: 20
+@mixin selection-container
+	position: absolute
+	overflow: visible
+	touch-action: none
+.selection-frame
+	@include selection-container
+	z-index: $selection-z-index + 0
+.selection-canvas
+	@include base.canvas
+	z-index: $selection-z-index + 1
+	background-color: transparent
+.selection-outline
+	@include selection-container
+	@include base.fill
+	box-sizing: content-box
+	padding: $selection-padding
+	margin: -$selection-padding
+	z-index: $selection-z-index + 2
+.selection-border
+	@include selection-container
+	@include base.fill
+	box-sizing: content-box
+	border: dashed $selection-color $selection-border-thickness
+	margin: -$selection-padding - $selection-border-thickness
+	z-index: $selection-z-index + 3
+	opacity: $selection-opacity
+@mixin control
+	position: absolute
+	touch-action: none
+	z-index: $selection-z-index + 4
+.control-knob
+	@include control
+	top: 50%
+	left: 50%
+	width: $selection-padding
+	height: $selection-padding
+	transform: translate(-50%, -50%)
+	overflow: visible
+@mixin drag-button
+	@include control
+	background-color: $selection-color
+	opacity: $selection-opacity
+.move-button
+	@include drag-button
+	@include base.fill
+.resize-button
+	@include drag-button
+	bottom: 0
+	right: 0
+	width: math.floor($selection-padding / 2)
+	height: math.floor($selection-padding / 2)
+
+	// TODO: fix button position
+$context-menu-z-index: 30
+$context-menu-border-radius: 4px
+$context-menu-button-size: 45px
+$context-menu-quick-button-size: 50px
+$context-menu-gap: 5px
+$context-menu-color: #111111
+$context-menu-opacity: 100%
+.context-menu
+	position: absolute // change to relative
+	left: 50px + $context-menu-gap
+	@include base.flexElement
+	align-items: flex-start
+	gap: $context-menu-gap
+	z-index: $context-menu-z-index
+.context-menu-quick-section
+	@include base.flexElement
+	flex-direction: row
+	@include base.flexFill
+	gap: $context-menu-gap
+.context-menu-section
+	@include base.flexElement
+	align-items: flex-start
+	gap: 3px
+	min-width: 100%
+@mixin context-menu-button-base
+	@include base.flexElement
+	@include base.flexCenterContent
+	user-select: none
+	border-radius: $context-menu-border-radius
+	background-color: $context-menu-color
+	color: #e1e1d9
+	opacity: $context-menu-opacity
+	&:hover
+		filter: brightness(1.25)
+	&:active
+		filter: brightness(1.5)
+.context-menu-button
+	@include context-menu-button-base
+	align-items: flex-start
+	height: $context-menu-button-size
+	padding: 0 20px
+	min-width: 100%
+.context-menu-quick-button
+	@include context-menu-button-base
+	width: $context-menu-quick-button-size
+	height: $context-menu-quick-button-size
+
+@mixin sidebar-view
+	@include base.flexElement
+	@include base.flexFill
+	flex-direction: column
+	align-items: flex-start
+	overflow-y: scroll
+	scrollbar-color: #252525 #111111
+.settings-view
+	@include sidebar-view
+	gap: 20px
+	padding: 30px
+.settings-checkbox
+	@include base.flexElement
+	flex-direction: row
+	color: white
+.settings-checkbox > input[type="checkbox"]
+	@include base.flexItem
+	height: 100%
+	width: 22px
+	margin: 0px 15px
+.conflict-view
+	@include sidebar-view
+	gap: 10px
+	padding: 30px
+.conflict-element
+	@include base.flexItem
+	padding: 10px
+	color: white
+	background-color: #222222
