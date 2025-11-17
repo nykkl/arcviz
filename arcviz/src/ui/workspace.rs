@@ -28,7 +28,7 @@ pub type AppContext = Context<WorkspaceContext<CanvasStage>, IgnoreErr>;
 pub struct Workspace {
 	element: HtmlDivElement,
 	pub context: AppContext,
-	canvas1: Component<ResizeCanvas>, // TODO: make this Component instead of Rc, right?
+	canvas1: Component<ResizeCanvas>,
 	canvas2: Component<ResizeCanvas>,
 	canvas3: Component<ResizeCanvas>,
 	canvas4: Component<ResizeCanvas>,
