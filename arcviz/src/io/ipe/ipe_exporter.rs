@@ -30,9 +30,6 @@ impl IpeExporter {
 	fn transform_point(&self, point: Vector) -> Vector {
 		self.pose.inverse_transform_point(&point.into()).into()
 	}
-	fn transform_size(&self, size: Number) -> Number { // ISSUE: hacky
-		Vector::from(self.pose.inverse_transform_vector(&(size * Vector::unit_x()).into())).length()
-	}
 }
 impl ToString for IpeExporter {
 	fn to_string(&self) -> String {
@@ -62,7 +59,7 @@ impl RenderTarget for IpeExporter {
 		let center = self.transform_point(center);
 		let start = self.transform_point(start);
 		let end = self.transform_point(end);
-		let radius = self.transform_size(radius);
+		let radius = (start - center).length();
 
 		let arc_string = fill_number(ARC_TEMPLATE, "{{{start_x}}}", start.x);
 		let arc_string = fill_number(&arc_string, "{{{start_y}}}", start.y);
