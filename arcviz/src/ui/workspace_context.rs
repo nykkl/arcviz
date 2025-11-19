@@ -4,10 +4,7 @@ use result_or_err::ResultOrErr;
 use serde::{Deserialize, Serialize};
 
 use crate::{
-	common::{Bounds, Number, Vector},
-	model::{ConnectionKind, ConnectionOrientation, Data, Settings, SizeId, Vertex, VertexId},
-	render::{RenderTarget, Stage},
-	ui::{CrossRenderer, GridRenderer},
+	common::{Bounds, Number, Vector}, io::ipe::IpeExporter, model::{ConnectionKind, ConnectionOrientation, Data, Settings, SizeId, Vertex, VertexId}, render::{RenderTarget, Stage}, ui::{CrossRenderer, GridRenderer}
 };
 
 #[derive(Copy, Clone)]
@@ -378,6 +375,12 @@ impl<S: Stage<Settings>> WorkspaceContext<S> {
 
 	pub fn to_text(&self) -> Vec<u8> {
 		self.data.to_string().as_bytes().to_vec()
+	}
+
+	pub fn export_ipe(&self) -> Vec<u8> {
+		let mut exporter = IpeExporter::default();
+		self.data.render_to(&mut exporter);
+		exporter.to_string().as_bytes().to_vec()
 	}
 
 	pub fn draw_selection_aid(&mut self, from: Vector, to: Vector) {

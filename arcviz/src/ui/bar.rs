@@ -48,6 +48,7 @@ pub struct Bar {
 	open: Component<Button>,
 	save_text: Component<Button>,
 	save: Component<Button>,
+	export_ipe: Component<Button>,
 	mode_selector: Component<BarChoice<ModePicker>>,
 	orientation_selector: Component<BarChoice<OrientationPicker>>,
 	size_selector: Component<BarChoice<SizePicker>>,
@@ -79,13 +80,20 @@ impl Bar {
 			}
 		}));
 		save_text.mount_in(&file_group);
-		let save = Component::make(Button::new_with_handler(Some("export json"), "bar-accent-button", {
+		let save = Component::make(Button::new_with_handler(Some("save json"), "bar-accent-button", {
 			let workspace = workspace.clone();
 			move |_| {
 				workspace.save();
 			}
 		}));
 		save.mount_in(&file_group);
+		let export_ipe = Component::make(Button::new_with_handler(Some("export ipe"), "bar-accent-button", {
+			let workspace = workspace.clone();
+			move |_| {
+				workspace.export_ipe();
+			}
+		}));
+		export_ipe.mount_in(&file_group);
 
 		let mut mode_selector =
 			GroupContainer::new("bar-group", BarChoiceFactory::new("bar-button", workspace.clone()));
@@ -175,6 +183,7 @@ impl Bar {
 			open,
 			save_text,
 			save,
+			export_ipe,
 			mode_selector: Component::make(mode_selector),
 			orientation_selector: Component::make(orientation_selector),
 			size_selector: Component::make(size_selector),

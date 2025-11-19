@@ -239,6 +239,12 @@ impl Workspace {
 		self.io.load();
 	}
 
+	pub fn export_ipe(&self) {
+		if let Some(context) = self.context.access() {
+			self.io.save(&context.export_ipe());
+		}
+	}
+
 	pub fn set_mode(&self, mode: Mode) {
 		if let Some(mut context) = self.context.access_mut() {
 			context.mode = mode;
