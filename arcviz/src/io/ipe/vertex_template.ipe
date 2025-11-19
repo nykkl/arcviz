@@ -1,1 +1,1 @@
-<use name="mark/disk(sx)" pos="{{{x}}} {{{y}}}" size="normal" stroke="black"/>
+<use name="mark/disk(sx)" pos="{{{x}}} {{{y}}}" size="normal" stroke="{{{color}}}"/>

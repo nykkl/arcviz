@@ -1,4 +1,4 @@
-<path stroke="black">
+<path stroke="{{{color}}}">
 {{{start_x}}} {{{start_y}}} m
 {{{radius}}} 0 0 {{{radius}}} {{{center_x}}} {{{center_y}}} {{{end_x}}} {{{end_y}}} a
 </path>

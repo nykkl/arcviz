@@ -11,6 +11,9 @@ const ARC_TEMPLATE: &str = include_str!("./arc_template.ipe");
 fn fill_number(original: &str, placeholder: &str, value: Number) -> String {
 	original.replace(placeholder, format!("{:.4}", value).as_str())
 }
+fn fill_str(original: &str, placeholder: &str, value: &str) -> String {
+	original.replace(placeholder, value)
+}
 
 /// A [RenderTarget] used to export the data to a representation in the .ipe format used by the ['Ipe extensible drawing editor'](https://ipe.otfried.org/).
 /// To export render the [crate::model::Data] to an [IpeExporter] and then use the [IpeExporter::to_string] method to get the file.
@@ -42,6 +45,7 @@ impl RenderTarget for IpeExporter {
 		let center = self.transform_point(center);
 		let vertex_string = fill_number(VERTEX_TEMPLATE, "{{{x}}}", center.x);
 		let vertex_string = fill_number(&vertex_string, "{{{y}}}", center.y);
+		let vertex_string = fill_str(&vertex_string, "{{{color}}}", color);
 		self.content.push_str(&vertex_string);
 	}
 	fn draw_connection_arc(
@@ -72,6 +76,7 @@ impl RenderTarget for IpeExporter {
 		let arc_string = fill_number(&arc_string, "{{{center_y}}}", center.y);
 		let arc_string = fill_number(&arc_string, "{{{end_x}}}", end.x);
 		let arc_string = fill_number(&arc_string, "{{{end_y}}}", end.y);
+		let arc_string = fill_str(&arc_string, "{{{color}}}", color);
 
 		self.content.push_str(&arc_string);
 	}
