@@ -10,7 +10,7 @@ pub trait RenderTarget {
 	fn draw_conflict(&mut self, center: Vector, color: &str, selected: bool);
 	fn draw_connection_invalid(&mut self, start: Vector, end: Vector, selected: bool);
 	fn draw_connection_arc(
-		&self,
+		&mut self,
 		center: Vector,
 		radius: Number,
 		rotation: Number,

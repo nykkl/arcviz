@@ -142,7 +142,7 @@ impl RenderTarget for CanvasTarget<'_> {
 	}
 
 	fn draw_connection_arc(
-		&self,
+		&mut self,
 		center: Vector,
 		radius: Number,
 		rotation: Number,
