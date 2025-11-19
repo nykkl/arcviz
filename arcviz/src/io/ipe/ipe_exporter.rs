@@ -55,6 +55,10 @@ impl RenderTarget for IpeExporter {
 	) {
 		let start = center + radius * Vector::unit_from_angle(rotation);
 		let end = center + radius * Vector::unit_from_angle(rotation + angle);
+		let (start, end) = match angle < 0.0 {
+			true => (start, end),
+			false => (end, start),
+		};
 
 		let center = self.transform_point(center);
 		let start = self.transform_point(start);
