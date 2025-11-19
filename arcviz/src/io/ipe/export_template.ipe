@@ -313,5 +313,6 @@ h
 <page>
 <layer name="alpha"/>
 <view layers="alpha" active="alpha"/>
+{{{content}}}
 </page>
 </ipe>
