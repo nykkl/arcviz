@@ -11,6 +11,7 @@ pub mod common;
 pub mod model;
 pub mod render;
 pub mod ui;
+pub mod io;
 
 #[wasm_bindgen]
 pub struct Arcviz {
