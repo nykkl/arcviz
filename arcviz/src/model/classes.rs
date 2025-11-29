@@ -17,6 +17,12 @@ impl Class {
 	pub fn new(size: Number, color: String) -> Self {
 		Self { size, color }
 	}
+	pub fn size(&self) -> &Number {
+		&self.size
+	}
+	pub fn color(&self) -> &str {
+		&self.color
+	}
 }
 impl ToString for Class {
 	fn to_string(&self) -> String {
@@ -57,6 +63,12 @@ impl Default for Classes {
 	}
 }
 impl Classes {
+	pub fn new(items: Vec<Class>, default: Class) -> Self {
+		Self { items, default }
+	}
+	pub fn items(&self) -> &[Class] {
+		&self.items
+	}
 	pub fn get_size(&self, id: SizeId) -> Number {
 		self.items.get(id).unwrap_or(&self.default).size.clone()
 	}

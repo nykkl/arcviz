@@ -40,6 +40,13 @@ impl Default for Data {
 }
 
 impl Data {
+	pub fn new(classes: Classes, vertices: Vertices) -> Self {
+		let size = vertices.len();
+		Self { vertices, connections: Connections::new(size), classes }
+	}
+	pub fn get_connections(&self) -> &Connections {
+		&self.connections
+	}
 	pub fn vertices_in(&self, region: Bounds) -> Vec<VertexId> {
 		self
 			.vertices
