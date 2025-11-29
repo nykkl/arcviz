@@ -4,7 +4,7 @@ use result_or_err::ResultOrErr;
 use serde::{Deserialize, Serialize};
 
 use crate::{
-	common::{Bounds, Number, Vector}, io::ipe::IpeExporter, model::{ConnectionKind, ConnectionOrientation, Data, Settings, SizeId, Vertex, VertexId}, render::{RenderTarget, Stage}, ui::{CrossRenderer, GridRenderer}
+	common::{Bounds, Number, Vector}, io::{dto::DataDto, ipe::IpeExporter}, model::{ConnectionKind, ConnectionOrientation, Data, Settings, SizeId, Vertex, VertexId}, render::{RenderTarget, Stage}, ui::{CrossRenderer, GridRenderer}
 };
 
 #[derive(Copy, Clone)]
@@ -357,13 +357,14 @@ impl<S: Stage<Settings>> WorkspaceContext<S> {
 	pub fn serialize(&self) -> Result<Vec<u8>, ()> {
 		let mut buffer = Vec::new();
 		let mut serializer = serde_json::Serializer::new(&mut buffer);
-		self.data.serialize(&mut serializer).or_err(())?;
+		let dto = DataDto::from(&self.data);
+		dto.serialize(&mut serializer).or_err(())?;
 		Ok(buffer)
 	}
 
 	pub fn load(&mut self, data: &[u8]) -> Result<(), ()> {
 		let mut deserializer = serde_json::Deserializer::from_slice(data);
-		self.data = Data::deserialize(&mut deserializer).or_err(())?;
+		self.data = (&DataDto::deserialize(&mut deserializer).or_err(())?).into();
 		Ok(())
 	}
 
