@@ -65,6 +65,9 @@ impl ConnectionOrientation {
 	}
 }
 
+// TODO: rename Connection -> Edge, Connections -> Edges, ...
+// then use the name Connection for the resolved edges i.e. the enum that is either Arc or Unreacable or etc.
+// rename ConnectionOrientation -> ArcOrientation => Edge has (intended) ArcOrientation as member
 #[derive(Clone, Serialize, Deserialize)]
 pub struct Connection {
 	pub orientation: ConnectionOrientation,
