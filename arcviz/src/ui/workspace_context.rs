@@ -4,7 +4,11 @@ use result_or_err::ResultOrErr;
 use serde::{Deserialize, Serialize};
 
 use crate::{
-	common::{Bounds, Number, Vector}, io::{dto::DataDto, ipe::IpeExporter}, model::{ConnectionKind, ConnectionOrientation, Data, Settings, SizeId, Vertex, VertexId}, render::{RenderTarget, Stage}, ui::{CrossRenderer, GridRenderer}
+	common::{Bounds, Number, Vector},
+	io::{dto::DataDto, ipe::IpeExporter},
+	model::{ConnectionKind, ConnectionOrientation, Data, Settings, SizeId, Vertex, VertexId},
+	render::{RenderTarget, Stage},
+	ui::{CrossRenderer, GridRenderer},
 };
 
 #[derive(Copy, Clone)]

@@ -1,12 +1,12 @@
 use std::rc::Rc;
 
+use web_sys::HtmlDivElement;
 use webbit::{
 	components::Checkbox,
 	elements::{div, styled},
 	errors::TracksEnvironment,
 	Component, ComponentContent,
 };
-use web_sys::HtmlDivElement;
 
 use crate::{model::Settings, ui::Workspace};
 

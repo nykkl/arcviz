@@ -1,12 +1,12 @@
 use std::{marker::PhantomData, rc::Rc};
 
+use wasm_bindgen::JsCast;
+use web_sys::HtmlElement;
 use webbit::{
 	components::{Button, GroupContainer, GroupContainerElementFactory},
 	events::Group,
 	Component, ComponentContent,
 };
-use wasm_bindgen::JsCast;
-use web_sys::HtmlElement;
 
 use crate::ui::Workspace;
 

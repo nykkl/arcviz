@@ -1,17 +1,17 @@
 use js_sys::Function;
-use webbit::Component;
 use ui::App;
 use wasm_bindgen::prelude::*;
 use web_sys::window;
+use webbit::Component;
 
 use webbit::io::FileIOHandler;
 
 pub mod adapters;
 pub mod common;
+pub mod io;
 pub mod model;
 pub mod render;
 pub mod ui;
-pub mod io;
 
 #[wasm_bindgen]
 pub struct Arcviz {

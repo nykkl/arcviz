@@ -1,6 +1,8 @@
 use std::rc::Rc;
 
 use ncollide2d::na::Affine2;
+use wasm_bindgen::JsValue;
+use web_sys::{console, Element, Event, HtmlDivElement, HtmlInputElement};
 use webbit::{
 	components::{Button, GroupContainer, SideBar},
 	elements::{div, on, styled, text},
@@ -8,8 +10,6 @@ use webbit::{
 	events::SharedEventListener,
 	Component, ComponentContent,
 };
-use wasm_bindgen::JsValue;
-use web_sys::{console, Element, Event, HtmlDivElement, HtmlInputElement};
 
 use crate::{
 	model::ConnectionOrientation,

@@ -1,8 +1,8 @@
+use web_sys::HtmlDivElement;
 use webbit::{
 	elements::{div, label, on, styled},
 	ComponentContent,
 };
-use web_sys::HtmlDivElement;
 
 use crate::ui::AppContext;
 

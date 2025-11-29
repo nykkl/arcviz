@@ -3,13 +3,13 @@ use std::{cell::RefCell, rc::Rc};
 use anyhow::anyhow;
 use ncollide2d::na::Translation2;
 use result_or_err::ResultOrErr;
+use web_sys::HtmlElement;
 use webbit::{
 	common::{Bounds, Vector},
 	components::{ContextMenu, SelectionFrame as Frame},
 	errors::TracksEnvironment,
 	Component, ComponentContent,
 };
-use web_sys::HtmlElement;
 
 use crate::{
 	model::Settings,
