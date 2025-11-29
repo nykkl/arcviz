@@ -1,7 +1,5 @@
 use std::{str::FromStr, usize};
 
-use serde::{Deserialize, Serialize};
-
 use crate::{
 	common::{Bounds, Number, Vector},
 	model::{Classes, SizeId},
@@ -12,8 +10,6 @@ use super::{
 	Arc, ArcIntersection, Connection, ConnectionOrientation, Connections, Vertex, VertexId, Vertices,
 };
 
-#[derive(Clone, Serialize, Deserialize)]
-#[serde(from = "DataRepresentation", into = "DataRepresentation")]
 pub struct Data {
 	pub vertices: Vertices,
 	connections: Connections,
@@ -460,32 +456,6 @@ impl Data {
 	// 		},
 	// 	}
 	// }
-}
-
-#[derive(Serialize, Deserialize)]
-struct DataRepresentation {
-	vertices: Vertices,
-	connections: Vec<(VertexId, VertexId, Connection)>,
-	sizes: Classes,
-}
-impl From<DataRepresentation> for Data {
-	fn from(value: DataRepresentation) -> Self {
-		let mut connections = Connections::new(value.vertices.len());
-		for (a, b, connection) in value.connections {
-			let Ok(entry) = connections.entry_mut(a, b) else { continue };
-			*entry = Some(connection);
-		}
-		Data { vertices: value.vertices, connections, classes: value.sizes }
-	}
-}
-impl From<Data> for DataRepresentation {
-	fn from(value: Data) -> Self {
-		let mut connections = Vec::new();
-		value.connections.foreach(|a, b, connection| {
-			connections.push((a, b, connection.clone()));
-		});
-		DataRepresentation { vertices: value.vertices, connections, sizes: value.classes }
-	}
 }
 
 impl ToString for Data {

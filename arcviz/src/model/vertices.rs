@@ -1,12 +1,10 @@
 use std::str::FromStr;
 
-use serde::{Deserialize, Serialize};
-
 use crate::render::RenderTarget;
 
 use super::{Vertex, VertexId};
 
-#[derive(Clone, Default, Serialize, Deserialize)]
+#[derive(Default)]
 pub struct Vertices {
 	pub items: Vec<Vertex>,
 }

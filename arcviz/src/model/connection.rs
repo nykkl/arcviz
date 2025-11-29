@@ -1,5 +1,3 @@
-use serde::{Deserialize, Serialize};
-
 use crate::model::SizeId;
 
 /// With which arc to form the connection.
@@ -7,7 +5,7 @@ use crate::model::SizeId;
 /// Left and right here refer to whether the connections curves left(+) or right(-) in a standard cartesian coordinate system.
 /// On a screen this is likely reversed.
 /// Meaning left or right would determine whether the arc is on the left or right of the straight line connecting the points.
-#[derive(Copy, Clone, Serialize, Deserialize)]
+#[derive(Copy, Clone)]
 pub enum ConnectionOrientation {
 	InnerRight,
 	InnerLeft,
@@ -68,7 +66,7 @@ impl ConnectionOrientation {
 // TODO: rename Connection -> Edge, Connections -> Edges, ...
 // then use the name Connection for the resolved edges i.e. the enum that is either Arc or Unreacable or etc.
 // rename ConnectionOrientation -> ArcOrientation => Edge has (intended) ArcOrientation as member
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone)]
 pub struct Connection {
 	pub orientation: ConnectionOrientation,
 	// pub radius: Number, // TODO: make this a reference to a ConnectionSize and store that as Resources in the Stage

@@ -1,16 +1,14 @@
 use std::{iter::once, str::FromStr};
 
 use result_or_err::ResultOrErr;
-use serde::{Deserialize, Serialize};
 
 use crate::common::Number;
 
 pub type SizeId = usize;
 
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone)]
 pub struct Class {
 	size: Number,
-	#[serde(default = "generate_color")]
 	color: String,
 }
 impl Class {
@@ -44,7 +42,7 @@ pub fn generate_color() -> String {
 	"white".to_string()
 }
 
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone)]
 pub struct Classes {
 	items: Vec<Class>,
 	default: Class,

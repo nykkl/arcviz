@@ -1,7 +1,5 @@
 use std::str::FromStr;
 
-use serde::{Deserialize, Serialize};
-
 use crate::model::{ConnectionOrientation, SizeId};
 
 use super::{Connection, VertexId};
@@ -31,7 +29,7 @@ use super::{Connection, VertexId};
 /// 1   2 | 7
 /// ------/
 /// 4   5   6
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone)]
 pub struct Connections {
 	items: Vec<Option<Connection>>,
 	size: VertexId,

@@ -1,11 +1,10 @@
 use std::str::FromStr;
 
 use result_or_err::ResultOrErr;
-use serde::{Deserialize, Serialize};
 
 use crate::common::Vector;
 
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone)]
 pub struct Vertex {
 	pub position: Vector,
 	pub label: Option<String>,
