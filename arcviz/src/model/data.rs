@@ -1,5 +1,3 @@
-use std::{str::FromStr, usize};
-
 use crate::{
 	common::{Bounds, Number, Vector},
 	model::{Classes, SizeId},
@@ -456,36 +454,6 @@ impl Data {
 	// 		},
 	// 	}
 	// }
-}
-
-impl ToString for Data {
-	fn to_string(&self) -> String {
-		let mut result = String::new();
-		result.push_str(&self.classes.to_string());
-		result.push_str("\n\n");
-		result.push_str(&self.vertices.to_string());
-		result.push_str("\n\n");
-		result.push_str(&self.connections.to_string());
-		result
-	}
-}
-impl FromStr for Data {
-	type Err = ();
-	fn from_str(s: &str) -> Result<Self, Self::Err> {
-		let sections = s.split("\n\n").collect::<Vec<_>>();
-		let (Some(&sizes), Some(&vertices), Some(&connections)) =
-			(sections.get(0), sections.get(1), sections.get(2))
-		else {
-			return Err(());
-		};
-		let (Ok(sizes), Ok(vertices), Ok(connections)) = (sizes.parse(), vertices.parse(), connections.parse())
-		else {
-			return Err(());
-		};
-		let mut this = Self { vertices, connections, classes: sizes };
-		this.connections.resize(this.vertices.len());
-		Ok(this)
-	}
 }
 
 pub enum ConnectionKind {

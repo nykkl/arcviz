@@ -1,7 +1,3 @@
-use std::{iter::once, str::FromStr};
-
-use result_or_err::ResultOrErr;
-
 use crate::common::Number;
 
 pub type SizeId = usize;
@@ -20,22 +16,6 @@ impl Class {
 	}
 	pub fn color(&self) -> &str {
 		&self.color
-	}
-}
-impl ToString for Class {
-	fn to_string(&self) -> String {
-		format!("{} {}", self.size, self.color)
-	}
-}
-impl FromStr for Class {
-	type Err = ();
-	fn from_str(s: &str) -> Result<Self, Self::Err> {
-		let (size, color) = match s.split_once(" ") {
-			Some((size, color)) => (size.parse().or_err(())?, color.to_string()),
-			None => (s.parse().or_err(())?, generate_color()),
-			_ => return Err(()),
-		};
-		Ok(Self::new(size, color))
 	}
 }
 pub fn generate_color() -> String {
@@ -84,18 +64,5 @@ impl Classes {
 			return id;
 		}
 		return id + 1;
-	}
-}
-impl ToString for Classes {
-	fn to_string(&self) -> String {
-		self.items.iter().chain(once(&self.default)).map(ToString::to_string).collect::<Vec<_>>().join("\n")
-	}
-}
-impl FromStr for Classes {
-	type Err = ();
-	fn from_str(s: &str) -> Result<Self, Self::Err> {
-		let mut sizes = s.split("\n").map(|p| p.parse::<Class>()).collect::<Result<Vec<_>, _>>().or_err(())?;
-		let default = sizes.pop().ok_or(())?;
-		Ok(Self { items: sizes, default })
 	}
 }

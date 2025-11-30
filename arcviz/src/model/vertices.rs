@@ -1,5 +1,3 @@
-use std::str::FromStr;
-
 use crate::render::RenderTarget;
 
 use super::{Vertex, VertexId};
@@ -37,17 +35,5 @@ impl Vertices {
 			let Some(vertex) = self.items.get(*id) else { continue };
 			renderer.draw_vertex(vertex.position.clone(), "green", false);
 		}
-	}
-}
-
-impl ToString for Vertices {
-	fn to_string(&self) -> String {
-		self.items.iter().map(ToString::to_string).collect::<Vec<_>>().join("\n")
-	}
-}
-impl FromStr for Vertices {
-	type Err = ();
-	fn from_str(s: &str) -> Result<Self, Self::Err> {
-		Ok(Self { items: s.lines().map(FromStr::from_str).collect::<Result<_, _>>()? })
 	}
 }
