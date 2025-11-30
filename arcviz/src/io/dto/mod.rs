@@ -40,11 +40,13 @@ impl From<&DataDto> for Data {
 #[derive(Clone, Serialize, Deserialize)]
 pub struct ClassDto {
 	pub size: Number,
-	#[serde(default = "generate_color")]
+	#[serde(default = "ClassDto::generate_color")]
 	pub color: String,
 }
-pub fn generate_color() -> String {
-	"white".to_string()
+impl ClassDto {
+	pub fn generate_color() -> String {
+		"white".to_string()
+	}
 }
 impl From<&Class> for ClassDto {
 	fn from(value: &Class) -> Self {
