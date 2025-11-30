@@ -374,12 +374,12 @@ impl<S: Stage<Settings>> WorkspaceContext<S> {
 
 	pub fn load_text(&mut self, data: &[u8]) -> Result<(), ()> {
 		let text = String::from_utf8(data.to_vec()).or_err(())?;
-		self.data = Data::from_str(&text)?;
+		self.data = (&DataDto::from_str(&text)?).into();
 		Ok(())
 	}
 
 	pub fn to_text(&self) -> Vec<u8> {
-		self.data.to_string().as_bytes().to_vec()
+		DataDto::from(&self.data).to_string().as_bytes().to_vec()
 	}
 
 	pub fn export_ipe(&self) -> Vec<u8> {
