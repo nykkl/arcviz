@@ -27,7 +27,7 @@ impl<C: Picker> BarChoiceFactory<C> {
 impl<C: Picker + 'static> GroupContainerElementFactory for BarChoiceFactory<C> {
 	type ConstructionArgs = (String, C::Choice, bool);
 	type Element = Button;
-	fn make_new(&mut self, group: &mut Group<()>, mut args: Self::ConstructionArgs) -> Component<Self::Element> {
+	fn make_new(&mut self, group: &mut Group<()>, args: Self::ConstructionArgs) -> Component<Self::Element> {
 		let button = Button::new(Some(args.0.as_str()), self.button_css);
 		let token = group.register({
 			let button = button.element().clone();
