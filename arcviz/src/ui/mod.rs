@@ -1,3 +1,5 @@
+#![allow(dead_code)] // in the ui we add child components as members => those might frequently go unused
+
 mod app;
 pub use app::*;
 
