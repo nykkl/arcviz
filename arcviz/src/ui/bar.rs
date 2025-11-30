@@ -45,6 +45,7 @@ pub struct Bar {
 	workspace: Rc<Workspace>,
 	dock: Rc<SideBar>,
 	element: HtmlDivElement,
+
 	open: Component<Button>,
 	save_text: Component<Button>,
 	save: Component<Button>,
