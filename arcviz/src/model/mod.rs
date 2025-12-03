@@ -23,3 +23,6 @@ pub use classes::*;
 
 mod settings;
 pub use settings::*;
+
+mod layered_matrix;
+pub use layered_matrix::*;
