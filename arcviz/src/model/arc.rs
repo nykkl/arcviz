@@ -230,7 +230,7 @@ impl Arc {
 		let extrema_bounds = angles
 			.iter()
 			.zip(directions)
-			.filter(|(&a, _)| self.contains_angle(a))
+			.filter(|&(&a, _)| self.contains_angle(a))
 			.map(|(_, d)| self.center.clone() + d * self.radius)
 			.map(Bounds::from)
 			.reduce(|acc, b| acc.combined_with(&b));

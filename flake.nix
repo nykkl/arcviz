@@ -18,7 +18,7 @@
 			devShell = pkgs.mkShell {
 				buildInputs = with pkgs; [
 					yarn
-					snapcraft
+					# snapcraft
 					wineWowPackages.stable
 				];
 				shellHook = ''
