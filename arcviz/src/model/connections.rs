@@ -1,3 +1,6 @@
+use wasm_bindgen::JsValue;
+use web_sys::console;
+
 use crate::model::LayeredMatrix;
 
 use super::{Connection, VertexId};
@@ -34,7 +37,9 @@ impl Connections {
 	}
 	/// Adds or removes rows and columns at the end to meet the specified size.
 	pub fn resize(&mut self, size: VertexId) {
+		console::log_1(&JsValue::from("A"));
 		self.matrix.resize(size);
+		console::log_1(&JsValue::from("Z"));
 	}
 	/// Removes the row and column that contains the specified vertex.
 	/// Thus reducing the size of the connection matrix by 1.
