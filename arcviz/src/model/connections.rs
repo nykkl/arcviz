@@ -34,7 +34,7 @@ impl Connections {
 	}
 	/// Adds or removes rows and columns at the end to meet the specified size.
 	pub fn resize(&mut self, size: VertexId) {
-		todo!("e")
+		self.matrix.resize(size);
 	}
 	/// Removes the row and column that contains the specified vertex.
 	/// Thus reducing the size of the connection matrix by 1.
