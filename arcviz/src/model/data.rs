@@ -19,16 +19,6 @@ impl Default for Data {
 		let mut this =
 			Self { vertices: Vertices::default(), connections: Connections::new(0), classes: Classes::default() };
 
-		this.add_vertex(Vertex::new(Vector::new(50.0, 50.0)));
-		this.add_vertex(Vertex::new(Vector::new(50.0, 150.0)));
-		this.add_vertex(Vertex::new(Vector::new(150.0, 150.0)));
-		this.add_vertex(Vertex::new(Vector::new(150.0, 50.0)));
-		this.add_connection(0, 1, ConnectionOrientation::InnerRight, 2);
-		this.add_connection(2, 3, ConnectionOrientation::InnerRight, 2);
-		this.add_connection(3, 0, ConnectionOrientation::InnerRight, 2);
-		this.add_connection(0, 2, ConnectionOrientation::InnerRight, 2);
-		this.add_connection(1, 3, ConnectionOrientation::InnerRight, 2);
-
 		this
 	}
 }
