@@ -21,6 +21,10 @@ pub struct Arcviz {
 impl Arcviz {
 	#[wasm_bindgen(constructor)]
 	pub fn new(read: Function, write: Function) -> Self {
+		std::panic::set_hook(Box::new(|info| {
+			web_sys::console::error_1(&JsValue::from(info.to_string()));
+		}));
+
 		Self { app: Component::make(App::new(FileIOHandler::new(read, write))) }
 	}
 	#[wasm_bindgen]
