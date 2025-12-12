@@ -2,8 +2,6 @@ use std::{str::FromStr, vec};
 
 use result_or_err::ResultOrErr;
 use serde::{Deserialize, Serialize};
-use wasm_bindgen::JsValue;
-use web_sys::console;
 
 use crate::{
 	common::{Bounds, Number, Vector},
@@ -99,20 +97,15 @@ impl<S: Stage<Settings>> WorkspaceContext<S> {
 	}
 
 	pub fn rerender(&mut self) {
-		console::log_1(&JsValue::from("E"));
 		self.stage.target_background(&self.resources).reset();
 		self.fine_grid.render_to(&mut self.stage, &self.resources);
 		self.coarse_grid.render_to(&mut self.stage, &self.resources);
 		self.cross.render_to(&mut self.stage, &self.resources);
-		console::log_1(&JsValue::from("F"));
 
 		let target = &mut self.stage.target_canvas(&self.resources);
-		console::log_1(&JsValue::from("G"));
 
 		target.reset();
-		console::log_1(&JsValue::from("H"));
 		self.data.render_to(target);
-		console::log_1(&JsValue::from("Z"));
 		// match self.selection {
 		// 	None => (),
 		// 	Some(Selection::Vertex(id)) => {
@@ -133,9 +126,7 @@ impl<S: Stage<Settings>> WorkspaceContext<S> {
 
 	fn add_vertex(&mut self, vertex: Vertex) -> VertexId {
 		let id = self.data.add_vertex(vertex);
-		console::log_1(&JsValue::from("D"));
 		self.rerender();
-		console::log_1(&JsValue::from("Z"));
 		return id;
 	}
 
