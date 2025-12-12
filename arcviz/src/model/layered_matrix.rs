@@ -237,6 +237,7 @@ impl<'a, T> Iterator for LinearLayeredMatrixIterator<'a, T> {
 		let item = self.matrix.items.get(self.current)?;
 		let (row, col) = self.coordinates.row_col();
 		self.coordinates.linear_increment();
+		self.current += 1;
 		return Some((row, col, item));
 	}
 }

@@ -1,3 +1,6 @@
+use wasm_bindgen::JsValue;
+use web_sys::console;
+
 use crate::{
 	common::{Bounds, Number, Vector},
 	model::{Classes, SizeId},
@@ -84,6 +87,7 @@ impl Data {
 	pub fn add_vertex(&mut self, vertex: Vertex) -> VertexId {
 		self.vertices.add(vertex);
 		self.connections.resize(self.vertices.len());
+		console::log_1(&JsValue::from("C"));
 		return self.vertices.len() - 1;
 	}
 	pub fn add_connection(
@@ -170,10 +174,12 @@ impl Data {
 	}
 	fn connections(&self) -> impl Iterator<Item = (VertexId, VertexId, ConnectionKind)> + '_ {
 		let arcs = self.connections.fast_iter().flat_map(|(start, end, connection)| {
+			console::log_1(&JsValue::from("J")); // this gets executed infinitely (on an empty collection)
 			let conn = match Arc::construct(start, end, &self.vertices, connection.as_ref()?, &self.classes) {
 				Ok(arc) => ConnectionKind::Arc(arc),
 				Err(()) => ConnectionKind::Unreachable,
 			};
+			console::log_1(&JsValue::from("X"));
 			Some((start, end, conn))
 		});
 		arcs
@@ -261,7 +267,9 @@ impl Data {
 		})
 	}
 	pub fn render_to(&self, renderer: &mut impl RenderTarget) {
+		console::log_1(&JsValue::from("I"));
 		let connections = self.connections().collect::<Vec<_>>();
+		console::log_1(&JsValue::from("Y"));
 		connections.iter().for_each(|(start, end, connection)| match connection {
 			ConnectionKind::Arc(arc) => renderer.draw_connection_arc(
 				arc.center.clone(),

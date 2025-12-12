@@ -39,7 +39,7 @@ impl Connections {
 	pub fn resize(&mut self, size: VertexId) {
 		console::log_1(&JsValue::from("A"));
 		self.matrix.resize(size);
-		console::log_1(&JsValue::from("Z"));
+		console::log_1(&JsValue::from("B"));
 	}
 	/// Removes the row and column that contains the specified vertex.
 	/// Thus reducing the size of the connection matrix by 1.
