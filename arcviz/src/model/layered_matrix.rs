@@ -161,6 +161,15 @@ impl<T> LayeredMatrix<T> {
 		Self { items, size }
 	}
 
+	/// The number of rows / columns of this matrix.
+	/// size = #rows = #cols
+	pub fn size(&self) -> usize {
+		self.size
+	}
+	/// The number of elements in this matrix.
+	pub fn len(&self) -> usize {
+		self.size.pow(2)
+	}
 	/// Gets the specified entry if the entry exists.
 	pub fn entry(&self, row: usize, col: usize) -> Result<&T, ()> {
 		let global_index = LayerCoordinates::from_row_col(row, col).linear();
