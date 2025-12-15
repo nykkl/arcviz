@@ -1,5 +1,3 @@
-pub type VertexId = usize;
-
 mod data;
 pub use data::*;
 

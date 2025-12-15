@@ -1,5 +1,7 @@
 use crate::common::Vector;
 
+pub type VertexId = usize;
+
 #[derive(Clone)]
 pub struct Vertex {
 	pub position: Vector,
