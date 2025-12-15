@@ -13,6 +13,9 @@ pub use vertices::*;
 mod connections;
 pub use connections::*;
 
+mod constraints;
+pub use constraints::*;
+
 mod arc;
 pub use arc::*;
 
