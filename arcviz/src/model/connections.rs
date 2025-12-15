@@ -12,6 +12,14 @@ impl Connections {
 		Self { matrix: LayeredMatrix::new(size) }
 	}
 
+	/// The number of vertices to be connected.
+	pub fn size(&self) -> usize {
+		self.matrix.size()
+	}
+	/// The number of entries in the connection matrix.
+	pub fn len(&self) -> usize {
+		self.matrix.len()
+	}
 	/// Gets the specified connection entry if the entry exists.
 	pub fn entry(&self, start_vertex: VertexId, end_vertex: VertexId) -> Result<&Option<Connection>, ()> {
 		self.matrix.entry(start_vertex, end_vertex)

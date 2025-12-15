@@ -1,6 +1,6 @@
 use crate::{
 	common::{Bounds, Number, Vector},
-	model::{Classes, SizeId},
+	model::{Classes, Constraints, SizeId},
 	render::RenderTarget,
 };
 
@@ -11,13 +11,18 @@ use super::{
 pub struct Data {
 	pub vertices: Vertices,
 	connections: Connections,
+	constraints: Constraints,
 	pub classes: Classes,
 }
 
 impl Default for Data {
 	fn default() -> Self {
-		let mut this =
-			Self { vertices: Vertices::default(), connections: Connections::new(0), classes: Classes::default() };
+		let mut this = Self {
+			vertices: Vertices::default(),
+			connections: Connections::new(0),
+			constraints: Constraints::new(0),
+			classes: Classes::default(),
+		};
 
 		this.add_vertex(Vertex::new(Vector::new(50.0, 50.0)));
 		this.add_vertex(Vertex::new(Vector::new(50.0, 150.0)));
@@ -36,7 +41,9 @@ impl Default for Data {
 impl Data {
 	pub fn new(classes: Classes, vertices: Vertices) -> Self {
 		let size = vertices.len();
-		Self { vertices, connections: Connections::new(size), classes }
+		let connections = Connections::new(size);
+		let constraints = Constraints::new(connections.len());
+		Self { vertices, connections, constraints, classes }
 	}
 	pub fn get_connections(&self) -> &Connections {
 		&self.connections
@@ -94,6 +101,7 @@ impl Data {
 	pub fn add_vertex(&mut self, vertex: Vertex) -> VertexId {
 		self.vertices.add(vertex);
 		self.connections.resize(self.vertices.len());
+		self.constraints.resize(self.connections.len());
 		return self.vertices.len() - 1;
 	}
 	pub fn add_connection(
