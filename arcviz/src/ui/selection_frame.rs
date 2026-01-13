@@ -2,25 +2,24 @@ use std::{cell::RefCell, rc::Rc};
 
 use anyhow::anyhow;
 use ncollide2d::na::Translation2;
-use result_or_err::ResultOrErr;
 use web_sys::HtmlElement;
 use webbit::{
-	common::{Bounds, Vector},
-	components::{ContextMenu, SelectionFrame as Frame},
-	errors::TracksEnvironment,
 	Component, ComponentContent,
+	common::{Bounds, Vector},
+	components::{Button, SelectionFrame as Frame},
+	errors::{ErrorHandling, TracksEnvironment},
 };
 
 use crate::{
 	model::Settings,
 	render::{RenderTarget, Stage},
-	ui::{AppContext, CanvasStage},
+	ui::{AppContext, CanvasStage, DynamicContextMenu},
 };
 
 pub struct SelectionFrame {
 	context: AppContext,
 	frame: Component<Frame>,
-	menu: RefCell<Option<Component<ContextMenu>>>,
+	menu: RefCell<Option<Component<DynamicContextMenu>>>,
 }
 
 impl SelectionFrame {
@@ -108,7 +107,7 @@ impl SelectionFrame {
 		*menu = Some(component);
 		Ok(())
 	}
-	fn make_menu(self: &Rc<Self>) -> Component<ContextMenu> {
+	fn make_menu(self: &Rc<Self>) -> Component<DynamicContextMenu> {
 		let delete = {
 			let selection_frame = self.clone();
 			move |context: AppContext| {
@@ -120,8 +119,16 @@ impl SelectionFrame {
 				}
 			}
 		};
-		let quick_delete = delete.clone()(self.context.clone_for("menu.quick.()delete"));
-		let delete = delete(self.context.clone_for("menu.()delete"));
+		let quick_delete = Button::new_with_handler(
+			Some("X"),
+			"context-menu-quick-button",
+			delete.clone()(self.context.clone_for("menu.quick.()delete")),
+		);
+		let delete = Button::new_with_handler(
+			Some("Delete"),
+			"context-menu-button",
+			delete(self.context.clone_for("menu.()delete")),
+		);
 		let duplicate = {
 			let selection_frame = self.clone();
 			move |context: AppContext| {
@@ -135,9 +142,17 @@ impl SelectionFrame {
 				}
 			}
 		};
-		let quick_duplicate = duplicate.clone()(self.context.clone_for("menu.quick.()duplicate"));
-		let duplicate = duplicate(self.context.clone_for("menu.()duplicate"));
-		let invert = {
+		let quick_duplicate = Button::new_with_handler(
+			Some("#"),
+			"context-menu-quick-button",
+			duplicate.clone()(self.context.clone_for("menu.quick.()duplicate")),
+		);
+		let duplicate = Button::new_with_handler(
+			Some("Duplicate"),
+			"context-menu-button",
+			duplicate(self.context.clone_for("menu.()duplicate")),
+		);
+		let invert = Button::new_with_handler(Some("Invert"), "context-menu-button", {
 			let context = self.context.clone_for("menu.()invert");
 			let selection_frame = self.clone();
 			move |_| {
@@ -149,8 +164,8 @@ impl SelectionFrame {
 				selection_frame.reset();
 				selection_frame.rerender();
 			}
-		};
-		let flip = {
+		});
+		let flip = Button::new_with_handler(Some("Flip"), "context-menu-button", {
 			let context = self.context.clone_for("menu.()flip");
 			let selection_frame = self.clone();
 			move |_| {
@@ -162,8 +177,8 @@ impl SelectionFrame {
 				selection_frame.reset();
 				selection_frame.rerender();
 			}
-		};
-		let evert = {
+		});
+		let evert = Button::new_with_handler(Some("Evert"), "context-menu-button", {
 			let context = self.context.clone_for("menu.()evert");
 			let selection_frame = self.clone();
 			move |_| {
@@ -175,16 +190,16 @@ impl SelectionFrame {
 				selection_frame.reset();
 				selection_frame.rerender();
 			}
-		};
-		let tag = {
+		});
+		let tag = Button::new_with_handler(Some("Tag"), "context-menu-button", {
 			let context = self.context.clone_for("menu.()tag");
 			move |_| {
 				let Some(mut context) = context.access_mut() else { return };
 				context.label_selection();
 				context.rerender();
 			}
-		};
-		let increase = {
+		});
+		let increase = Button::new_with_handler(Some("+"), "context-menu-quick-button", {
 			let context = self.context.clone_for("menu.()increase");
 			let selection_frame = self.clone();
 			move |_| {
@@ -195,8 +210,8 @@ impl SelectionFrame {
 				selection_frame.reset();
 				selection_frame.rerender();
 			}
-		};
-		let decrease = {
+		});
+		let decrease = Button::new_with_handler(Some("-"), "context-menu-quick-button", {
 			let context = self.context.clone_for("menu.()decrease");
 			let selection_frame = self.clone();
 			move |_| {
@@ -207,24 +222,20 @@ impl SelectionFrame {
 				selection_frame.reset();
 				selection_frame.rerender();
 			}
-		};
-		Component::make(ContextMenu::new(
-			vec![
-				("X", Box::new(quick_delete)),
-				("-", Box::new(decrease)),
-				("+", Box::new(increase)),
-				("#", Box::new(quick_duplicate)),
-			],
-			vec![
-				("Flip", Box::new(flip)),
-				("Evert", Box::new(evert)),
-				("Invert", Box::new(invert)),
-				("Tag", Box::new(tag)),
-				("Duplicate", Box::new(duplicate)),
-				("Delete", Box::new(delete)),
-			],
-			"",
-		))
+		});
+		let mut menu = DynamicContextMenu::new("");
+		menu.add_quick_action(Component::make(quick_delete)).handle(&self.context);
+		menu.add_quick_action(Component::make(decrease)).handle(&self.context);
+		menu.add_quick_action(Component::make(increase)).handle(&self.context);
+		menu.add_quick_action(Component::make(quick_duplicate)).handle(&self.context);
+		menu.add_action(Component::make(flip)).handle(&self.context);
+		menu.add_action(Component::make(evert)).handle(&self.context);
+		menu.add_action(Component::make(invert)).handle(&self.context);
+		menu.add_action(Component::make(tag)).handle(&self.context);
+		menu.add_action(Component::make(duplicate)).handle(&self.context);
+		menu.add_action(Component::make(delete)).handle(&self.context);
+
+		Component::make(menu)
 	}
 	pub fn open(&self) -> Result<(), ()> {
 		self.frame.open()
@@ -247,10 +258,10 @@ impl ComponentContent for SelectionFrame {
 	}
 
 	fn update(&self) -> anyhow::Result<()> {
-		self.frame.update().or_err(());
+		self.frame.update()?;
 		let Ok(menu) = self.menu.try_borrow() else { return Err(anyhow!("can't access data")) };
 		if let Some(menu) = menu.as_ref() {
-			menu.update();
+			menu.update()?;
 		}
 		Ok(())
 	}
