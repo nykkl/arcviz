@@ -7,20 +7,15 @@
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 		naersk.url = "github:nix-community/naersk";
-		mozilla = {
-			url = "github:mozilla/nixpkgs-mozilla";
-			flake = false;
-		};
 		fenix = {
 			url = "https://flakehub.com/f/nix-community/fenix/0.1.*.tar.gz";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 	};
 
-	outputs = { self, nixpkgs, flake-utils, rust-overlay, naersk, mozilla, fenix }: flake-utils.lib.eachDefaultSystem (system:
+	outputs = { self, nixpkgs, flake-utils, rust-overlay, naersk, fenix }: flake-utils.lib.eachDefaultSystem (system:
 		let
 			# overlays = [ rust-overlay.overlays.default ];
-			# overlays = [ (import mozilla) ];
 			fenixToolchain = with fenix.packages.${system}; combine [
 				latest.rustc
 				latest.cargo
@@ -29,14 +24,8 @@
 			overlays = [ (final: prev: { fenixToolchain = fenixToolchain; }) ];
 			pkgs = import nixpkgs { inherit system overlays; };
 			rust = pkgs.rust-bin.fromRustupToolchainFile ./arcviz/rust-toolchain.toml;
-			toolchain = (pkgs.rustChannelOf {
-				rustToolchain = ./arcviz/rust-toolchain.toml;
-				sha256 = "sha256-vra6TkHITpwRyA5oBKAHSX0Mi6CBDNQD+ryPSpxFsfg=";
-			}).rust;
 			rustWasmTarget = "wasm32-unknown-unknown";
 			naerskLib = pkgs.callPackage naersk {
-				# cargo = toolchain;
-				# rustc = toolchain;
 				cargo = pkgs.fenixToolchain;
 				rustc = pkgs.fenixToolchain;
 			};
@@ -108,7 +97,6 @@
 				nativeBuildInputs = with pkgs; [
 					# rust # NOTE: this is necessary: it provides the rust build tools
 					tree
-					# toolchain
 					fenixToolchain
 					wasm-bindgen-cli
 				];

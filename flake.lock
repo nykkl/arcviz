@@ -60,22 +60,6 @@
         "type": "github"
       }
     },
-    "mozilla": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1762256096,
-        "narHash": "sha256-Hzj/d8eRpfRfjHSRX6gGRf0jSg2zIJMXl6S5opuKsHc=",
-        "owner": "mozilla",
-        "repo": "nixpkgs-mozilla",
-        "rev": "80c058cf774c198fb838fc3549806b232dd3e320",
-        "type": "github"
-      },
-      "original": {
-        "owner": "mozilla",
-        "repo": "nixpkgs-mozilla",
-        "type": "github"
-      }
-    },
     "naersk": {
       "inputs": {
         "fenix": "fenix_2",
@@ -131,7 +115,6 @@
       "inputs": {
         "fenix": "fenix",
         "flake-utils": "flake-utils",
-        "mozilla": "mozilla",
         "naersk": "naersk",
         "nixpkgs": "nixpkgs_2",
         "rust-overlay": "rust-overlay"
