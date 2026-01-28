@@ -7,31 +7,16 @@
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 		naersk.url = "github:nix-community/naersk";
-		fenix = {
-			url = "https://flakehub.com/f/nix-community/fenix/0.1.*.tar.gz";
-			inputs.nixpkgs.follows = "nixpkgs";
-		};
 	};
 
-	outputs = { self, nixpkgs, flake-utils, rust-overlay, naersk, fenix }: flake-utils.lib.eachDefaultSystem (system:
+	outputs = { self, nixpkgs, flake-utils, rust-overlay, naersk }: flake-utils.lib.eachDefaultSystem (system:
 		let
 			overlays = [ rust-overlay.overlays.default ];
-
-			# fenixToolchain = with fenix.packages.${system}; combine [
-			# 	latest.rustc
-			# 	latest.cargo
-			# 	targets.${rustWasmTarget}.latest.rust-std
-			# ];
-			# overlays = [ (final: prev: { fenixToolchain = fenixToolchain; }) ];
-
 			pkgs = import nixpkgs { inherit system overlays; };
 			rust = pkgs.rust-bin.fromRustupToolchainFile ./arcviz/rust-toolchain.toml;
-			rustWasmTarget = "wasm32-unknown-unknown";
 			naerskLib = pkgs.callPackage naersk {
 				cargo = rust;
 				rustc = rust;
-				# cargo = pkgs.fenixToolchain;
-				# rustc = pkgs.fenixToolchain;
 			};
 		in
 		rec {
@@ -92,57 +77,14 @@
 				pname = "arcviz-wasm";
 				version = "0.1.0";
 				src = ./arcviz;
-				# cargoLock.lockFile = ./arcviz/Cargo.lock;
-				# cargoLock.outputHashes = {
-				# 	# need to be specified explicitly because they are git dependencies in Cargo.toml
-				# 	"result_or_err-0.1.0" = "sha256-LOOnHKY+G6Gb2VuEixMN4r3Dd3UXb4kKlVNZZLNizYk=";
-				# 	"webbit-0.1.0" = "sha256-rfNo8labW67aooQGUcf9A7y0mOIwn37zQ4q5/Auy6KI=";
-				# };
 				nativeBuildInputs = with pkgs; [
 					rust # NOTE: this is necessary: it provides the rust build tools
-					tree
-					# fenixToolchain
 					wasm-bindgen-cli
 				];
-				# postBuildPhase = ''
-				# 	# cargo build --release --target=wasm32-unknown-unknown
-				# 	wasm-bindgen --target web --out-dir pkg target/wasm32-unknown-unknown/release/arcviz.wasm 
-				# '';
-				CARGO_BUILD_TARGET = rustWasmTarget;
-				# cargoBuildOptions = args: args ++ [ "--package arcviz" ];
-				# cargoBuildOptions = args: args ++ [ "--package arcviz" "--target=wasm32-unknown-unknown" ];
-				# copyLibs = true;
+				CARGO_BUILD_TARGET = "wasm32-unknown-unknown";
 				postInstall = ''
 					mkdir -p $out/share
-					rustc --print target-list
-					ls target/wasm32-unknown-unknown/release
-					tree target/wasm32-unknown-unknown/release/incremental
 					wasm-bindgen --target web --out-dir $out/share target/wasm32-unknown-unknown/release/arcviz.wasm 
-					# cp -r pkg/* $out/share
-				'';
-			};
-
-			packages.arcviz-wasm-old = pkgs.rustPlatform.buildRustPackage {
-				pname = "arcviz-wasm";
-				version = "0.1.0";
-				src = ./arcviz;
-				cargoLock.lockFile = ./arcviz/Cargo.lock;
-				cargoLock.outputHashes = {
-					# need to be specified explicitly because they are git dependencies in Cargo.toml
-					"result_or_err-0.1.0" = "sha256-LOOnHKY+G6Gb2VuEixMN4r3Dd3UXb4kKlVNZZLNizYk=";
-					"webbit-0.1.0" = "sha256-rfNo8labW67aooQGUcf9A7y0mOIwn37zQ4q5/Auy6KI=";
-				};
-				nativeBuildInputs = with pkgs; [
-					rust # NOTE: this is necessary: it provides the rust build tools
-					wasm-bindgen-cli
-				];
-				buildPhase = ''
-					cargo build --release --target=wasm32-unknown-unknown
-					wasm-bindgen --target web --out-dir pkg target/wasm32-unknown-unknown/release/arcviz.wasm 
-				'';
-				installPhase = ''
-					mkdir -p $out/share
-					cp -r pkg/* $out/share
 				'';
 			};
 		}
