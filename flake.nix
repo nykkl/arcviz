@@ -64,7 +64,7 @@
 					nodePackages.sass
 				];
 				buildPhase = ''
-					sass --no-source-map style/styles.sass styles.css
+					sass style/styles.sass styles.css
 				'';
 				installPhase = ''
 					mkdir -p $out/share
