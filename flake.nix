@@ -15,19 +15,23 @@
 
 	outputs = { self, nixpkgs, flake-utils, rust-overlay, naersk, fenix }: flake-utils.lib.eachDefaultSystem (system:
 		let
-			# overlays = [ rust-overlay.overlays.default ];
-			fenixToolchain = with fenix.packages.${system}; combine [
-				latest.rustc
-				latest.cargo
-				targets.${rustWasmTarget}.latest.rust-std
-			];
-			overlays = [ (final: prev: { fenixToolchain = fenixToolchain; }) ];
+			overlays = [ rust-overlay.overlays.default ];
+
+			# fenixToolchain = with fenix.packages.${system}; combine [
+			# 	latest.rustc
+			# 	latest.cargo
+			# 	targets.${rustWasmTarget}.latest.rust-std
+			# ];
+			# overlays = [ (final: prev: { fenixToolchain = fenixToolchain; }) ];
+
 			pkgs = import nixpkgs { inherit system overlays; };
 			rust = pkgs.rust-bin.fromRustupToolchainFile ./arcviz/rust-toolchain.toml;
 			rustWasmTarget = "wasm32-unknown-unknown";
 			naerskLib = pkgs.callPackage naersk {
-				cargo = pkgs.fenixToolchain;
-				rustc = pkgs.fenixToolchain;
+				cargo = rust;
+				rustc = rust;
+				# cargo = pkgs.fenixToolchain;
+				# rustc = pkgs.fenixToolchain;
 			};
 		in
 		rec {
@@ -95,9 +99,9 @@
 				# 	"webbit-0.1.0" = "sha256-rfNo8labW67aooQGUcf9A7y0mOIwn37zQ4q5/Auy6KI=";
 				# };
 				nativeBuildInputs = with pkgs; [
-					# rust # NOTE: this is necessary: it provides the rust build tools
+					rust # NOTE: this is necessary: it provides the rust build tools
 					tree
-					fenixToolchain
+					# fenixToolchain
 					wasm-bindgen-cli
 				];
 				# postBuildPhase = ''
