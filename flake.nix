@@ -74,7 +74,7 @@
 			};
 
 			packages.arcviz-wasm = naerskLib.buildPackage {
-				pname = "arcviz-wasm";
+				name = "arcviz-wasm";
 				version = "0.1.0";
 				src = ./arcviz;
 				nativeBuildInputs = with pkgs; [
