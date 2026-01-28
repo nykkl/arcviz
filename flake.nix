@@ -78,7 +78,6 @@
 				version = "0.1.0";
 				src = ./arcviz;
 				nativeBuildInputs = with pkgs; [
-					rust # NOTE: this is necessary: it provides the rust build tools
 					wasm-bindgen-cli
 				];
 				CARGO_BUILD_TARGET = "wasm32-unknown-unknown";
