@@ -2,11 +2,11 @@
 	inputs = {
 		nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 		flake-utils.url = "github:numtide/flake-utils";
-		rust-overlay = {
+		rust-overlay = { # rust version/toolchain overlay: to add wasm target
 			url = "github:oxalica/rust-overlay";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
-		naersk.url = "github:nix-community/naersk";
+		naersk.url = "github:nix-community/naersk"; # incremental rust builds
 	};
 
 	outputs = { self, nixpkgs, flake-utils, rust-overlay, naersk }: flake-utils.lib.eachDefaultSystem (system:
