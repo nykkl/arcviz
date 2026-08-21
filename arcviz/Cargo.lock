@@ -519,8 +519,8 @@ dependencies = [
 
 [[package]]
 name = "webbit"
-version = "0.1.0"
-source = "git+https://github.com/nykkl/webbit.git?branch=dev#36c276a370a908aac7e784b2c61ad66d1e38a9db"
+version = "0.2.0"
+source = "git+https://github.com/nykkl/webbit.git?branch=dev#24619aaa81b6cb17a3b25499dc6f652d19720b1b"
 dependencies = [
  "anyhow",
  "js-sys",
