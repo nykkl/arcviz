@@ -16,6 +16,8 @@ codegen-units = 1
 inherits = "final"
 opt-level = "s"
 
+[build-dependencies]
+webbit-style = { git = "https://github.com/nykkl/webbit.git", branch = "dev" } # TODO: stabilize this by removing branch spec
 
 [dependencies]
 webbit = { git = "https://github.com/nykkl/webbit.git", branch = "dev" } # TODO: stabilize this by removing branch spec

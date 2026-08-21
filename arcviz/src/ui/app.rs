@@ -18,7 +18,8 @@ pub struct App {
 
 impl App {
 	pub fn new(io: FileIOHandler) -> Self {
-		let element = styled(div(), "app");
+		let element = styled(div(), "webbit-root app");
+		on(&element, webbit::stylesheet!("app.css"));
 		let main = on(&element, styled(div(), "main"));
 
 		let workspace = Workspace::new(io);

@@ -60,12 +60,7 @@
 				pname = "arcviz-web";
 				version = "0.1.0";
 				src = ./static;
-				nativeBuildInputs = with pkgs; [
-					nodePackages.sass
-				];
-				buildPhase = ''
-					sass style/styles.sass styles.css
-				'';
+				dontBuild = true; # the stylesheet is compiled into the wasm by arcviz's build script (webbit-style)
 				installPhase = ''
 					mkdir -p $out/share
 					cp -r ./* $out/share
@@ -83,7 +78,7 @@
 				CARGO_BUILD_TARGET = "wasm32-unknown-unknown";
 				postInstall = ''
 					mkdir -p $out/share
-					wasm-bindgen --target web --out-dir $out/share target/wasm32-unknown-unknown/release/arcviz.wasm 
+					wasm-bindgen --target web --out-dir $out/share target/wasm32-unknown-unknown/release/arcviz.wasm
 				'';
 			};
 		}
