@@ -808,7 +808,7 @@ dependencies = [
 [[package]]
 name = "webbit"
 version = "0.2.0"
-source = "git+https://github.com/nykkl/webbit.git?branch=dev#24619aaa81b6cb17a3b25499dc6f652d19720b1b"
+source = "git+https://github.com/nykkl/webbit.git?branch=dev#d3ab3dd2960b0b11c3815ee6dee2ea6b23d73ac5"
 dependencies = [
  "anyhow",
  "js-sys",
@@ -821,7 +821,7 @@ dependencies = [
 [[package]]
 name = "webbit-style"
 version = "0.2.0"
-source = "git+https://github.com/nykkl/webbit.git?branch=dev#24619aaa81b6cb17a3b25499dc6f652d19720b1b"
+source = "git+https://github.com/nykkl/webbit.git?branch=dev#d3ab3dd2960b0b11c3815ee6dee2ea6b23d73ac5"
 dependencies = [
  "grass",
 ]
